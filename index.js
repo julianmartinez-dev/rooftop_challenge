@@ -1,18 +1,22 @@
 const fs = require('fs');
+
 const letters = JSON.parse(fs.readFileSync('./letters.json'));
 const positions = JSON.parse(fs.readFileSync('./positions.json'));
-const letterPositions = []
-for (const property in letters) {
-    letterPositions.push({
-      letter: property,
-      position: positions[letters[property]],
-    });
+
+const lettersPositions = new Map();
+for (const letter in letters) {
+    lettersPositions.set(
+     letter,
+    positions[letters[letter]],
+    );
 }
+console.log(lettersPositions);
 let url = [];
-letterPositions.forEach(e => {
-    e.position.forEach(pos => {
-        url[pos] = e.letter;
+lettersPositions.forEach( (positions, letter) =>{
+    positions.forEach((position) => {
+        url[position] = letter;
     });
-});
+})
+
 url = url.join('');
-console.log({url});
+console.log({url})
